@@ -8,6 +8,7 @@ import <span>;
         static proto float TestFunction(string arg);
         static proto float GetMeAVector(out vector arg);
         static proto external void TestFunc(out vector arg); // external gets instance as first argument and can access instance variables
+        static proto string StringFunc(string inputString, out string arg);
 
         int testIntMemberVariable = 5;
         string testStringMember = "stringtest";
@@ -48,7 +49,18 @@ public:
         auto testFloatArray = classInstance->GetVariable("testFloatArray")->GetAs<std::span<float>>();
 
         // set via out var
-        args.SetAs<Vector3>(1, Vector3{(float)testIntMemberVariable, 2, 3});
+        args.SetAs<Vector3>(0, Vector3{(float)testIntMemberVariable, 2, 3});
+    }
+
+    // static proto string StringFunc(string inputString, out string arg);
+    static void StringFunc(FunctionArgumentsHandler& args, FunctionResultHandler& result) {
+
+        // Strings can also be read as string_view, but currently this cannot be used in Set, that will be fixed in the future
+        auto inputString = args.GetAs<std::string_view>(0);
+
+        // Set a string via out var, this will copy the string into Enfusion's own memory
+        args.SetAs<const char*>(1, "testabc");
+        result.SetAs<const char*>(inputString.data());
     }
 
     void DoSetup(ScriptClassBaseSimple::RegisterFuncHandler registerFunction) override {
