@@ -14,6 +14,12 @@ import <span>;
         int testIntMemberVariable = 5;
         string testStringMember = "stringtest";
         float testFloatArray[3] = {1,2,3};
+
+
+        // "InterceptReady" is a "magic" variable, when your plugin class DoSetup method gets executed, it will be set to true.
+        // You can use this to detect if your plugin has actually been loaded.
+        static bool InterceptReady = false;
+        
     };
  */
 class ExampleClass : public ScriptClassBaseSimple<"ExampleClass"> {
