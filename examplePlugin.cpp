@@ -9,6 +9,7 @@ import <span>;
         static proto float GetMeAVector(out vector arg);
         static proto external void TestFunc(out vector arg); // external gets instance as first argument and can access instance variables
         static proto string StringFunc(string inputString, out string arg);
+        static proto void ArrayTest(notnull array<string> stringArray, notnull array<vector3> vectorArray, notnull array<float> floatArray);
 
         int testIntMemberVariable = 5;
         string testStringMember = "stringtest";
@@ -63,12 +64,41 @@ public:
         result.SetAs<const char*>(inputString.data());
     }
 
+    // static proto void ArrayTest(notnull array<string> stringArray, notnull array<vector3> vectorArray, notnull array<float> floatArray);
+    static void ArrayTest(FunctionArgumentsHandler& args, FunctionResultHandler& result) {
+
+        // Arrays can currently only be read, via std::span. Writing to arrays is not possible for now.
+        // Technically the Vector3/float/int/bool, all values that don't need memory allocation by themselves, could be in-place overwritten to change them in the array.
+        // But element adding/removing is not supported yet.
+
+
+        // This is not checking for null, thats why we have notnull in the function definition
+
+        auto stringArray = args.GetAs<std::span<const char*>>(0);
+        auto vectorArray = args.GetAs<std::span<Vector3>>(1);
+        auto floatArray = args.GetAs<std::span<float>>(2);
+
+        /*
+            auto vectorArray = new array<vector>();
+            points.Insert( Vector( 0, 0, 0) );
+            points.Insert( Vector( 5, 0, 0) );
+            points.Insert( Vector( 8, 3, 0) );
+            points.Insert( Vector( 6, 1, 0) );
+            autoptr array<string> stringArray = {"jedna", "dva", "tri"};
+            autoptr array<float> floatArray = {0.1, 0.2, 0.3};
+            DedmensSecondClass.ArrayTest(stringArray, vectorArray, floatArray);
+        */
+    }
+
+
     void DoSetup(ScriptClassBaseSimple::RegisterFuncHandler registerFunction) override {
         // We need to assign Enscript function name, to our function implementation here
 
         registerFunction("TestFunction", &TestFunction);
         registerFunction("GetMeAVector", &GetMeAVector);
         registerFunction("TestFunc", &TestFunc);
+        registerFunction("StringFunc", &StringFunc);
+        registerFunction("ArrayTest", &ArrayTest);
     }
 };
 
