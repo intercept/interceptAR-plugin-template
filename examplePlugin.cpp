@@ -20,7 +20,7 @@ class ExampleClass : public ScriptClassBaseSimple<"ExampleClass"> {
 public:
     // static proto float TestFunction(string arg);
     static void TestFunction(FunctionArgumentsHandler& args, FunctionResultHandler& result) {
-        //if (!args.verifyType<std::string_view>(0))
+        //if (!args.VerifyType<std::string_view>(0))
         //    __debugbreak(); // wrong type inside script declaration
 
 
