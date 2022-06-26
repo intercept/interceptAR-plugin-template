@@ -49,7 +49,7 @@ public:
         auto classInstance = args.GetAs<ClassInstance*>(0);
 
         auto instanceName = classInstance->GetClassName();
-        auto instanceType = classInstance->GetClassType().getType();
+        auto instanceType = classInstance->GetClassType().GetType();
 
         auto testIntMemberVariable = classInstance->GetVariable("testIntMemberVariable")->GetAs<int>(); 
         auto testStringMember = classInstance->GetVariable("testStringMember")->GetAs<std::string_view>();
