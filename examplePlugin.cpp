@@ -105,6 +105,8 @@ public:
         registerFunction("TestFunc", &TestFunc);
         registerFunction("StringFunc", &StringFunc);
         registerFunction("ArrayTest", &ArrayTest);
+
+        Intercept::Print(LogLevel::Verbose, "ExamplePlugin was loaded!"); // Example on how to print a log message (to workbench log, or game server logfile)
     }
 };
 
