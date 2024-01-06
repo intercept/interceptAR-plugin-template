@@ -2,6 +2,14 @@ import InterceptCommon;
 import <cstdint>;
 import <span>;
 
+// On Linux you currently can't use modules (because GCC constantly crashes and I can't figure it out) so you have to use this instead
+/*
+#include "lib/InterceptAR/src/common/interceptCommon.ixx"
+#include <cstdint>
+#include <span>
+*/
+
+
 /*
     sealed class ExampleClass
     {

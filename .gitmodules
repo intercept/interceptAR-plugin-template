@@ -1,3 +1,3 @@
 [submodule "lib/InterceptAR"]
 	path = lib/InterceptAR
-	url = git@github.com:intercept/interceptAR.git
+	url = https://github.com/intercept/interceptAR.git

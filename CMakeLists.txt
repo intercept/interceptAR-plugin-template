@@ -37,7 +37,44 @@ SOURCE_GROUP(${INTERCEPT_PLUGIN_NAME} FILES ${PluginSources})
 add_library(${INTERCEPT_PLUGIN_NAME} SHARED ${PluginSources} ${CommonSources})
 
 if(CMAKE_COMPILER_IS_GNUCXX)
-    #TODO
+    target_compile_options(
+        ${INTERCEPT_PLUGIN_NAME} PRIVATE 
+
+        #"-fmodules-ts"
+
+        "$<$<CONFIG:Release>:-O3>"
+        #"-s" #remove -s to enable debug symbols. Also maybe add -g or -g3
+        "-g"
+        "-fPIC"
+        "-fpermissive"
+        "-pthread"
+        "-static-libgcc"
+        "-static-libstdc++"
+        "-Wno-ignored-attributes"
+        "-static"
+        "$<$<CONFIG:Release>:-ffunction-sections>"
+        "$<$<CONFIG:Release>:-fdata-sections>"
+    )
+    target_link_options(${INTERCEPT_PLUGIN_NAME} PRIVATE "-fPIC"
+        "$<$<CONFIG:Release>:-Wl,--gc-sections>"
+        "$<$<OR:$<CONFIG:Release>>:-Wl,--strip-all>"
+        "-Wl,-rpath,$ORIGIN"
+    ) 
+    set(CMAKE_FIND_LIBRARY_SUFFIXES ".a")
+
+    target_link_libraries(${INTERCEPT_PLUGIN_NAME} "libstdc++.a")
+    find_package (Threads)
+    target_link_libraries (${INTERCEPT_PLUGIN_NAME} ${CMAKE_THREAD_LIBS_INIT})
+    #add_dependencies(${INTERCEPT_PLUGIN_NAME} interceptCommon.gcm)
+
+    #add_custom_target("gcmLink${INTERCEPT_PLUGIN_NAME}" ALL COMMAND ${CMAKE_COMMAND} -E create_symlink "../gcm.cache" "gcm.cache") # #TODO custom for plugin template
+    #add_dependencies(${INTERCEPT_PLUGIN_NAME} "gcmLink${INTERCEPT_PLUGIN_NAME}")
+
+    target_compile_definitions(${INTERCEPT_PLUGIN_NAME} PRIVATE
+        "INTERCEPT_NO_MODULE"
+        "$<$<CONFIG:Debug>:_DEBUG>"
+    )
+
 else()
     target_compile_options(
         ${INTERCEPT_PLUGIN_NAME} PRIVATE 
