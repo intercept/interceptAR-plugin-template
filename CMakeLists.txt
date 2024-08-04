@@ -1,12 +1,5 @@
-cmake_minimum_required (VERSION 3.13)
+cmake_minimum_required (VERSION 3.26)
 project (InterceptARExample CXX ASM)
-
-
-if(MSVC)
-    set( CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} /std:c++latest" )
-#elseif(MSVC)
-#    message(FATAL_ERROR "ERROR: You need a C++17 compatible compiler")
-endif()
 
 message("GENERATOR USED: '${CMAKE_GENERATOR}'")
 message("COMPILER USED: '${CMAKE_CXX_COMPILER_ID}'")

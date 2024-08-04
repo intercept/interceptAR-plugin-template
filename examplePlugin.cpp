@@ -1,6 +1,7 @@
 import InterceptCommon;
-import <cstdint>;
-import <span>;
+#include <cstdint>
+#include <span>
+#include <string_view>
 
 // On Linux you currently can't use modules (because GCC constantly crashes and I can't figure it out) so you have to use this instead
 /*
@@ -15,7 +16,7 @@ import <span>;
     {
         static proto float TestFunction(string arg);
         static proto float GetMeAVector(out vector arg);
-        static proto external void TestFunc(out vector arg); // external gets instance as first argument and can access instance variables
+        proto external void TestFunc(out vector arg); // external gets instance as first argument and can access instance variables
         static proto string StringFunc(string inputString, out string arg);
         static proto void ArrayTest(notnull array<string> stringArray, notnull array<vector3> vectorArray, notnull array<float> floatArray);
 
@@ -24,10 +25,9 @@ import <span>;
         float testFloatArray[3] = {1,2,3};
 
 
-        // "InterceptReady" is a "magic" variable, when your plugin class DoSetup method gets executed, it will be set to true.
+        // "InterceptLoaded" is a "magic" variable, when your plugin class DoSetup method gets executed, it will be set to true.
         // You can use this to detect if your plugin has actually been loaded.
-        static bool InterceptReady = false;
-        
+        static bool InterceptLoaded = false;
     };
  */
 class ExampleClass : public ScriptClassBaseSimple<"ExampleClass"> {
