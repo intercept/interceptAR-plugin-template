@@ -1,4 +1,4 @@
-cmake_minimum_required (VERSION 3.26)
+cmake_minimum_required (VERSION 3.30)
 project (InterceptARExample CXX ASM)
 
 message("GENERATOR USED: '${CMAKE_GENERATOR}'")
@@ -6,7 +6,9 @@ message("COMPILER USED: '${CMAKE_CXX_COMPILER_ID}'")
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}/release/")
 
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+
+set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(PREBUILT_MODULE_PATH ${CMAKE_BINARY_DIR}/modules)
@@ -24,10 +26,19 @@ add_subdirectory(lib/InterceptAR/src/common)
 # Plugin's filename
 set(INTERCEPT_PLUGIN_NAME "examplePlugin")
 
-file(GLOB PluginSources *.hpp *.cpp *.ixx)
+file(GLOB PluginSources *.hpp *.cpp)
+file(GLOB_RECURSE PluginModules *.ixx)
 SOURCE_GROUP(${INTERCEPT_PLUGIN_NAME} FILES ${PluginSources})
 
-add_library(${INTERCEPT_PLUGIN_NAME} SHARED ${PluginSources} ${CommonSources})
+add_library(${INTERCEPT_PLUGIN_NAME} SHARED ${PluginSources})
+
+target_sources(${INTERCEPT_PLUGIN_NAME} PUBLIC
+    FILE_SET CXX_MODULES
+    FILES ${PluginModules}
+)
+
+target_link_libraries(${INTERCEPT_PLUGIN_NAME} )
+
 
 if(CMAKE_COMPILER_IS_GNUCXX)
     target_compile_options(

@@ -105,7 +105,7 @@ public:
     }
 
 
-    void DoSetup(ScriptClassBaseSimple::RegisterFuncHandler registerFunction) override {
+    void DoSetup(ScriptClassBaseSimple::RegisterFuncHandler registerFunction, Intercept::ClassType* selfType) override {
         // We need to assign Enscript function name, to our function implementation here
 
         registerFunction("TestFunction", &TestFunction);
