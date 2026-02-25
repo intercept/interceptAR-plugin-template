@@ -1,5 +1,5 @@
-cmake_minimum_required (VERSION 3.30)
-project (InterceptARExample CXX ASM)
+cmake_minimum_required (VERSION 4.1)
+project (InterceptARExample CXX)
 
 message("GENERATOR USED: '${CMAKE_GENERATOR}'")
 message("COMPILER USED: '${CMAKE_CXX_COMPILER_ID}'")
